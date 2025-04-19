@@ -1,0 +1,10 @@
+[project]
+name = "mwb-api"
+version = "0.1.0"
+description = "Metabolomics Workbench API"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.6.0",
+    "requests>=2.32.3",
+]

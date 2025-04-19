@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "Metabolomics Workbench API": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp[cli],requests",
+        "mcp",
+        "run",
+        "/Users/username/Documents/Development/mcp/mwb-api/server.py"
+      ]
+    }
+  }
+}
