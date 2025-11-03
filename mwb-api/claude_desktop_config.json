@@ -3,12 +3,10 @@
     "Metabolomics Workbench API": {
       "command": "uv",
       "args": [
+        "--directory",
+        "/full/path/to/mcp/mwb-api",
         "run",
-        "--with",
-        "mcp[cli],requests",
-        "mcp",
-        "run",
-        "/Users/username/Documents/Development/mcp/mwb-api/server.py"
+        "server.py"
       ]
     }
   }

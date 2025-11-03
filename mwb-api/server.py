@@ -5,7 +5,7 @@ import json
 mcp = FastMCP("Metabolomics Workbench API")
 
 @mcp.tool()
-def fetch_studies(study_id: str = "ST") -> list:
+async def fetch_studies(study_id: str = "ST") -> list:
     """
     Fetch study information from the Metabolomics Workbench API.
     
@@ -43,3 +43,10 @@ def fetch_studies(study_id: str = "ST") -> list:
         return {"error": f"API request failed: {str(e)}"}
     except json.JSONDecodeError:
         return {"error": "Failed to parse API response as JSON"}
+
+def main():
+    # Initialize and run the server
+    mcp.run(transport='stdio')
+
+if __name__ == "__main__":
+    main()
