@@ -4,7 +4,7 @@
 
 ```bash
     brew install uv
-    brew isntall node
+    brew install node
 ```
 
 ## Run development server
@@ -26,13 +26,5 @@ Edit the file located at:
 ```bash
     /Users/username/Library/Application Support/Claude/claude_desktop_config.json
 ```
-
-Replace:
-
-`"mcp[cli]",`
-
-With:
-
-`"mcp[cli],requests",`
 
 See example claude_desktop_config.json in this directory.
