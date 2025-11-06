@@ -1,9 +1,21 @@
 from mcp.server.fastmcp import FastMCP
 import requests
 import json
+import os
+import argparse
 
 BASE_URL = "https://www.metabolomicsworkbench.org/rest"
-mcp = FastMCP("Metabolomics Workbench API")
+
+
+# Initialize FastMCP with port configuration
+def _init_mcp():
+    """Initialize MCP server with host and port from environment"""
+    host = os.environ.get("MCP_HOST", "0.0.0.0")
+    port = int(os.environ.get("MCP_PORT", 8080))
+    return FastMCP("Metabolomics Workbench API", host=host, port=port), host, port
+
+
+mcp, HOST, PORT = _init_mcp()
 
 
 @mcp.tool()
@@ -231,8 +243,42 @@ def _get(endpoint, params=None):
 
 
 def main():
-    # Initialize and run the server
-    mcp.run(transport="stdio")
+
+    # Parse command-line arguments (default transport is 'stdio')
+    parser = argparse.ArgumentParser(description="Run Metabolomics Workbench MCP server")
+    parser.add_argument(
+        "-t",
+        "--transport",
+        choices=["stdio", "streamable-http"],
+        default=os.environ.get("MCP_TRANSPORT", "stdio"),
+        help="Transport to use for MCP server. Default: 'stdio'",
+    )
+    args = parser.parse_args()
+    transport = args.transport
+
+    if transport == "stdio":
+        """
+        Run the MCP server with stdio transport.
+        This is for local testing with an LLM that supports stdio transport.
+        """
+        print("Starting MCP server with stdio transport...")
+        print("MCP Server is running...")
+
+        # Use stdio transport
+        mcp.run(transport="stdio")
+    elif transport == "streamable-http":
+        """
+        Run the MCP server with streamable-http transport.
+        This is for remote access through a reverse proxy like Nginx.
+        """
+        print("Starting MCP server with streamable-http transport...")
+        print(f"MCP Server is running at http://{HOST}:{PORT}...")
+
+        # Use streamable-http transport
+        mcp.run(transport="streamable-http")
+    else:
+        print(f"Unknown transport: {transport}. Please use 'stdio' or 'streamable-http'.")
+        return
 
 
 if __name__ == "__main__":
